@@ -16,7 +16,9 @@ def parseGpx(gpxFile):
   return outputTracks
 
 def readTrack(track): 
-  trackData = {"name": getTextValue(track, "name")}
+  trackData = {}
+  if ( getTextValue(track, "name") ):
+    trackData = {"name": getTextValue(track, "name")}
   trackData["segments"] = []
 
   trackSegments = track.getElementsByTagName("trkseg")
@@ -50,6 +52,9 @@ def readTrackPoint(point):
 ## Utility
 
 def getTextValue(node, tagName):
-  return node.getElementsByTagName(tagName)[0].firstChild.nodeValue
+  if node.getElementsByTagName(tagName):
+    return node.getElementsByTagName(tagName)[0].firstChild.nodeValue
+  else:
+    return 0
 
 print gpxToJson(sys.argv[1])
